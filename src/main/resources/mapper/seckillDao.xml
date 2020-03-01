@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cx.seckill.dao.SeckillDao">
+        <!--目的：为DAO接口方法提供sql配置
+            既然要提供配置，那么要告诉是哪个DAO接口(包名+接口名）-->
+    
+        <!--第一个接口方法提供sql语句-->
+        <!--什么操作对应什么标签，标签里面写具体sql语句。id对应方法名-->
+        <update id="reduceNumber">
+            <!--具体sql
+            #{实体属性名}，不允许存在<=符号用<![CDATA[<=]]>
+            -->
+            update seckill
+            set number=number-1
+            where seckill_id=#{seckillId}
+            and start_time <![CDATA[<=]]>#{killTime} <!--代表商品秒杀成功时间在规定的秒杀时间范围内-->
+            and end_time>=#{killTime}
+            and number>0;
+        </update>
+        <select id="queryById" resultType="seckill">
+            select *
+            from seckill
+            where seckill_id=#{seckillId};
+        </select>
+        <select id="queryAll" resultType="seckill">
+                select *
+                from seckill
+                order by create_time desc
+                limit #{offset},#{limit};
+        </select>
+        <!--使用mybatis调用存储过程-->
+    <select id="KillByprocedure" statementType="CALLABLE">
+        call execute_seckill(
+         #{seckillid,jdbcType=BIGINT,mode=IN},
+         #{userphone,jdbcType=BIGINT,mode=IN},
+         #{killTime,jdbcType=TIMESTAMP,mode=IN},
+         #{result,jdbcType=INTEGER,mode=OUT}
+        );
+    </select>
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--配置全局属性-->
+    <settings>
+        <!--使用jdbc的getGeneratedKeys获取数据库自增主键值-->
+        <setting name="useGeneratedKeys" value="true"/>
+        <!--使用列别名替换列名，
+            select name as title from table
+            name是表中列名，title是实体属性名。这样写能够讲实体属性与表中列相映射
+        -->
+        <setting name="useColumnLabel" value="true"/>
+        <!--开启驼峰命名转换：Table(create_time)->Entity：(createtime)
+            自动下划线去掉转换，不用列别名替换列名-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+</configuration>

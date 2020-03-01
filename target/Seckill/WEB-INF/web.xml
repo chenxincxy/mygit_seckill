@@ -1,0 +1,26 @@
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+
+  <servlet>
+    <servlet-name>Spring-mvc</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:spring/Spring-*.xml</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Spring-mvc</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <!--解释以上web.xml的配置的操作
+  1.url-pattern Servlet路径为/
+  2.对应到Spring-mvc
+  3.在通过第2的名字映射了servlet 中的Spring-mvc
+  4.找到servlet-class中的类
+  5.<init-param>标签中 将Spring-dao.xml,Spring-service.xml,Spring-web.xml所有配置文件随着第4步的类加载而加载启动
+  6.到了Spring-web.xml就可以在里面知道如何找到我们想要得到的对应的Servlet类了
+  -->
+</web-app>

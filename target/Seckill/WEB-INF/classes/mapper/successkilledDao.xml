@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cx.seckill.dao.successkilledDao">
+    <!--ignore主键冲突，不报错，返回0-->
+    <insert id="insertImfo">
+        insert ignore into success_killed(seckill_id,user_phone,state)
+        values(#{seckillId},#{userphone},0);
+    </insert>
+    <select id="queryByIdWithseckill" resultType="successkilled">
+        <!--根据id查询successkilled并携带seckill-->
+        <!--告诉Mybatis把结果映射到successkilled同时映射seckill的属性
+        ,通过连接两个表即可-->
+        select sk.*,
+        s.seckill_id "seckill.seckillid",
+        s.NAME "seckill.name",
+        s.NUMBER "seckill.number",
+        s.start_time "seckill.starttime",
+        s.end_time "seckill.endtime",
+        s.create_time "seckill.createtime"
+        from success_killed sk inner join seckill s
+        on sk.seckill_id=s.seckill_id
+        where sk.seckill_id=#{seckillId} and sk.user_phone=#{userphone};
+    </select>
+</mapper>
